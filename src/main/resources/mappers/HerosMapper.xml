@@ -1,0 +1,128 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.example.importexcel.mapper.HerosMapper">
+  <resultMap id="BaseResultMap" type="com.example.importexcel.mapper.Heros">
+    <id column="id" jdbcType="INTEGER" property="id" />
+    <result column="name" jdbcType="VARCHAR" property="name" />
+    <result column="age" jdbcType="INTEGER" property="age" />
+    <result column="address" jdbcType="VARCHAR" property="address" />
+    <result column="job" jdbcType="VARCHAR" property="job" />
+    <result column="retired" jdbcType="VARCHAR" property="retired" />
+    <result column="fromDate" jdbcType="TIMESTAMP" property="fromdate" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    id, name, age, address, job, retired, fromDate
+  </sql>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from heros
+    where id = #{id,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+    delete from heros
+    where id = #{id,jdbcType=INTEGER}
+  </delete>
+  <insert id="insert" parameterType="com.example.importexcel.mapper.Heros">
+    insert into heros (id, name, age, 
+      address, job, retired, 
+      fromDate)
+    values (#{id,jdbcType=INTEGER}, #{name,jdbcType=VARCHAR}, #{age,jdbcType=INTEGER}, 
+      #{address,jdbcType=VARCHAR}, #{job,jdbcType=VARCHAR}, #{retired,jdbcType=VARCHAR}, 
+      #{fromdate,jdbcType=TIMESTAMP})
+  </insert>
+  <insert id="insertSelective" parameterType="com.example.importexcel.mapper.Heros">
+    insert into heros
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        id,
+      </if>
+      <if test="name != null">
+        name,
+      </if>
+      <if test="age != null">
+        age,
+      </if>
+      <if test="address != null">
+        address,
+      </if>
+      <if test="job != null">
+        job,
+      </if>
+      <if test="retired != null">
+        retired,
+      </if>
+      <if test="fromdate != null">
+        fromDate,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        #{id,jdbcType=INTEGER},
+      </if>
+      <if test="name != null">
+        #{name,jdbcType=VARCHAR},
+      </if>
+      <if test="age != null">
+        #{age,jdbcType=INTEGER},
+      </if>
+      <if test="address != null">
+        #{address,jdbcType=VARCHAR},
+      </if>
+      <if test="job != null">
+        #{job,jdbcType=VARCHAR},
+      </if>
+      <if test="retired != null">
+        #{retired,jdbcType=VARCHAR},
+      </if>
+      <if test="fromdate != null">
+        #{fromdate,jdbcType=TIMESTAMP},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.example.importexcel.mapper.Heros">
+    update heros
+    <set>
+      <if test="name != null">
+        name = #{name,jdbcType=VARCHAR},
+      </if>
+      <if test="age != null">
+        age = #{age,jdbcType=INTEGER},
+      </if>
+      <if test="address != null">
+        address = #{address,jdbcType=VARCHAR},
+      </if>
+      <if test="job != null">
+        job = #{job,jdbcType=VARCHAR},
+      </if>
+      <if test="retired != null">
+        retired = #{retired,jdbcType=VARCHAR},
+      </if>
+      <if test="fromdate != null">
+        fromDate = #{fromdate,jdbcType=TIMESTAMP},
+      </if>
+    </set>
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.example.importexcel.mapper.Heros">
+    update heros
+    set name = #{name,jdbcType=VARCHAR},
+      age = #{age,jdbcType=INTEGER},
+      address = #{address,jdbcType=VARCHAR},
+      job = #{job,jdbcType=VARCHAR},
+      retired = #{retired,jdbcType=VARCHAR},
+      fromDate = #{fromdate,jdbcType=TIMESTAMP}
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+
+  <insert id="batchInsert" parameterMap="java.util.List">
+    insert into  heros
+    (id, name, age,
+      address, job, retired,
+      fromDate) values
+    <foreach collection="list" index="index" open="(" separator="," close=")" item="item">
+      (#{item.id}, #{item.name}, #{item.age}, #{item.address}, #{item.job},
+       #{item.retired}, #{item.fromDate})
+    </foreach>
+  </insert>
+</mapper>
