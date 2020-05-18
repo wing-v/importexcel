@@ -31,7 +31,7 @@ public class ImportExcellController {
     public String parseExcels(){
 //        readExcel.readSheets();
         try {
-            Thread thread = new Thread();
+            Thread thread  = new Thread();
             thread.sleep(222);
             thread.wait();
         }catch (Exception e){
